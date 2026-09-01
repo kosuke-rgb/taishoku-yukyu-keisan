@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>退職時の有給消化シミュレーター | 最終出社日を逆算</title>
+<meta name="description" content="退職日と残っている有給休暇日数を入れるだけで、有給をすべて消化した場合の最終出社日・有給消化の開始日を自動計算。土日休み・シフト制などの休日パターンにも対応した無料ツールです。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://webtools-labs.com/taishoku-yukyu-keisan/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2370765779014113" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NKK5TXCQEK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NKK5TXCQEK');
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230f766e'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif'%3E%EF%BF%A5%3C/text%3E%3C/svg%3E">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="退職時の有給消化シミュレーター | 最終出社日を逆算">
+<meta property="og:description" content="退職日と残りの有給日数から、有給を使い切った場合の最終出社日をまとめて計算します。">
+<meta property="og:url" content="https://webtools-labs.com/taishoku-yukyu-keisan/">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="退職時の有給消化シミュレーター">
+<meta name="twitter:description" content="退職日と残りの有給日数から、最終出社日を自動計算する無料ツール。">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "退職時の有給消化シミュレーター",
+  "url": "https://webtools-labs.com/taishoku-yukyu-keisan/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "description": "退職日と残っている有給休暇日数から、有給をすべて消化した場合の最終出社日・有給消化の開始日を自動計算できる無料ツール。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+  "inLanguage": "ja"
+}
+</script>
+<style>
+:root {
+  --bg: #ffffff;
+  --surface-2: #f7f7f7;
+  --ink: #1a1a1a;
+  --muted: #767676;
+  --line: #e3e3e3;
+  --accent: #0f766e;
+  --best-bg: #f0f8f6;
+  --warn-bg: #fff7ed;
+  --warn-ink: #9a5b00;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+.page { max-width: 720px; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+header.masthead { margin-bottom: 1.5rem; }
+h1 {
+  font-weight: 700;
+  font-size: clamp(1.4rem, 4.5vw, 1.7rem);
+  margin: 0 0 0.7rem;
+  letter-spacing: 0.01em;
+}
+p.lede { color: var(--muted); margin: 0; max-width: 60ch; font-size: 0.95rem; }
+.updated-note { display: block; margin-top: 0.9rem; font-size: 0.78rem; color: var(--muted); }
+
+.notice-box {
+  background: var(--warn-bg); color: var(--warn-ink); border-radius: 8px;
+  padding: 0.9rem 1.1rem; font-size: 0.85rem; margin-bottom: 2rem;
+}
+
+section { margin-bottom: 2.5rem; }
+h2 { font-size: 1.05rem; font-weight: 700; margin: 0 0 1rem; }
+
+.field-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem; }
+.field { flex: 1; min-width: 180px; }
+.field label { display: block; font-size: 0.83rem; color: var(--muted); margin-bottom: 0.35rem; }
+.field input[type="date"], .field input[type="number"], .field select {
+  width: 100%; font-variant-numeric: tabular-nums; font-size: 1.05rem; font-family: inherit;
+  padding: 0.55rem 0.7rem; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--bg); color: var(--ink);
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+
+.summary-cards { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+.summary-card {
+  flex: 1; min-width: 180px; background: var(--best-bg); border-radius: 10px;
+  padding: 1rem 1.2rem;
+}
+.summary-card .label { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.3rem; }
+.summary-card .value { font-size: 1.3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.summary-card .sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+table.compare { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+table.compare th, table.compare td {
+  padding: 0.5rem 0.5rem; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top;
+}
+table.compare th.num, table.compare td.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.compare thead th { color: var(--muted); font-weight: 500; font-size: 0.78rem; }
+tr.off-day { color: var(--muted); }
+tr.off-day td { background: var(--surface-2); }
+tr.last-day td:first-child { font-weight: 700; }
+.tag { display: inline-block; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); padding: 0.05rem 0.4rem; border-radius: 4px; margin-left: 0.4rem; font-weight: 500; }
+.tag.muted { color: var(--muted); border-color: var(--line); }
+
+.disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
+
+.ad-slot { margin: 2.5rem 0; text-align: center; min-height: 100px; }
+
+.contact-box textarea {
+  width: 100%; min-height: 6rem; font-family: inherit; font-size: 0.92rem;
+  padding: 0.7rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);
+  resize: vertical; margin-bottom: 0.6rem;
+}
+.contact-box input[type="email"] {
+  width: 100%; font-family: inherit; font-size: 0.92rem;
+  padding: 0.6rem 0.7rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+.contact-box textarea:focus, .contact-box input:focus { outline: none; border-color: var(--accent); }
+.contact-box button {
+  font-family: inherit; font-weight: 700; font-size: 0.9rem; padding: 0.6rem 1.4rem;
+  border: none; border-radius: 6px; background: var(--accent); color: #fff; cursor: pointer;
+}
+.contact-box button:disabled { opacity: 0.5; cursor: not-allowed; }
+.contact-status { font-size: 0.85rem; margin-top: 0.6rem; }
+.contact-status.ok { color: var(--accent); }
+.contact-status.err { color: #b91c1c; }
+
+footer.site-footer {
+  margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+  font-size: 0.78rem; color: var(--muted);
+}
+footer.site-footer p { margin: 0 0 0.5rem; }
+footer.site-footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <h1>退職時の有給消化シミュレーター</h1>
+    <p class="lede">退職日と残っている有給休暇日数を入れるだけで、有給をすべて使い切った場合の最終出社日と、有給消化がスタートする日をまとめて計算します。</p>
+    <span class="updated-note">計算方式 最終確認日: 2026年9月2日</span>
+  </header>
+
+  <div class="notice-box">
+    ⚠️ 民法上は退職の意思表示から2週間で退職できますが、有給を確実に消化するには、この計算結果をもとに「最終出社日の1ヶ月〜1.5ヶ月前」を目安に退職の意思を伝えるのが一般的です。引き継ぎ期間も踏まえて余裕を持って相談しましょう。
+  </div>
+
+  <section>
+    <h2>最終出社日を計算</h2>
+    <div class="field-row">
+      <div class="field">
+        <label for="lastDay">退職日（雇用契約が終了する日）</label>
+        <input type="date" id="lastDay" value="2026-10-31">
+      </div>
+      <div class="field">
+        <label for="leaveDays">残っている有給休暇日数</label>
+        <input type="number" id="leaveDays" min="0" step="1" value="12">
+      </div>
+      <div class="field">
+        <label for="offPattern">休日パターン</label>
+        <select id="offPattern">
+          <option value="satsun">土日休み</option>
+          <option value="sun">日曜のみ休み</option>
+          <option value="none">固定休みなし（シフト制など、全日を消化対象としてカウント）</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="summary-cards" id="summaryCards"></div>
+
+    <div style="overflow-x:auto">
+      <table class="compare">
+        <thead>
+          <tr><th>日付</th><th>曜日</th><th>状態</th></tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+    <p class="disclaimer">土日休みの場合、有給消化期間中の土日はもともと休みのため有給を消費しません（表内では「休日（対象外）」と表示）。会社独自の休日カレンダー（祝日・夏季休暇等）は考慮していない簡易計算です。実際の消化スケジュールは会社の労務担当と調整してください。</p>
+  </section>
+
+  <section>
+    <h2>退職の伝え方の目安</h2>
+    <div class="ref-table">
+      <table style="width:100%; border-collapse: collapse; font-size: 0.88rem;">
+        <tbody>
+          <tr><td style="padding:0.5rem; border-bottom:1px solid var(--line);">法律上の最短ライン</td><td style="padding:0.5rem; border-bottom:1px solid var(--line); text-align:right;">退職の2週間前（民法627条）</td></tr>
+          <tr><td style="padding:0.5rem; border-bottom:1px solid var(--line);">実務上の一般的な目安</td><td style="padding:0.5rem; border-bottom:1px solid var(--line); text-align:right;">1〜2ヶ月前（就業規則で定めがあればそちらが優先）</td></tr>
+          <tr><td style="padding:0.5rem;">有給消化を踏まえた目安</td><td style="padding:0.5rem; text-align:right;">上記の計算結果「最終出社日」からさらに前倒しで相談</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="disclaimer">就業規則に「退職の〇ヶ月前までに申し出ること」といった規定がある場合は、そちらが優先されるのが一般的です。まずは自社の就業規則を確認してください。</p>
+  </section>
+
+  <div class="ad-slot">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-2370765779014113"
+      data-ad-slot="3021985784"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <section class="contact-box">
+    <h2>ご意見・追加してほしい機能</h2>
+    <p class="lede" style="margin-bottom:0.9rem;">気づいたことや、あったら便利な機能があれば教えてください。</p>
+    <form id="contactForm">
+      <input type="email" id="contactEmail" placeholder="返信が必要な場合はメールアドレス（任意）">
+      <textarea id="contactMessage" placeholder="ご意見・ご要望をどうぞ" required></textarea>
+      <button type="submit" id="contactSubmit">送信する</button>
+      <p class="contact-status" id="contactStatus"></p>
+    </form>
+  </section>
+
+  <footer class="site-footer">
+    <p>本ツールの計算結果は一般的な休日パターンにもとづく目安であり、正確性を保証するものではありません。祝日・会社独自の休日は考慮していません。実際の退職日・有給消化スケジュールは必ず勤務先の就業規則・労務担当にご確認ください。</p>
+    <p>あわせて使える：
+      <a href="https://webtools-labs.com/yukyu-hiyou-keisan/">有給休暇 付与日数計算ツール</a> ／
+      <a href="https://webtools-labs.com/furima-tedori-simulator/">フリマ手取りシミュレーター</a> ／
+      <a href="https://webtools-labs.com/revolving-risoku-keisan/">リボ払い・分割払い 実質利息計算ツール</a>
+    </p>
+    <p>当サイトは広告を掲載する場合があります。</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var WEEKDAY_LABEL = ['日', '月', '火', '水', '木', '金', '土'];
+
+  var lastDayInput = document.getElementById('lastDay');
+  var leaveDaysInput = document.getElementById('leaveDays');
+  var offPatternSelect = document.getElementById('offPattern');
+  var summaryCards = document.getElementById('summaryCards');
+  var resultBody = document.getElementById('resultBody');
+
+  function isOffDay(date, pattern) {
+    var day = date.getDay();
+    if (pattern === 'satsun') return day === 0 || day === 6;
+    if (pattern === 'sun') return day === 0;
+    return false;
+  }
+
+  function fmtDate(d) {
+    return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
+  }
+
+  function addDays(date, n) {
+    var d = new Date(date.getTime());
+    d.setDate(d.getDate() + n);
+    return d;
+  }
+
+  function render() {
+    var lastDayVal = lastDayInput.value;
+    var leaveDays = Math.max(0, Math.floor(Number(leaveDaysInput.value) || 0));
+    var pattern = offPatternSelect.value;
+
+    if (!lastDayVal || leaveDays <= 0) {
+      summaryCards.innerHTML = '';
+      resultBody.innerHTML = '';
+      return;
+    }
+
+    var resignDate = new Date(lastDayVal + 'T00:00:00');
+
+    var days = [];
+    var cursor = new Date(resignDate.getTime());
+    var consumed = 0;
+    var maxIter = 3650;
+    var iter = 0;
+
+    while (consumed < leaveDays && iter < maxIter) {
+      var off = isOffDay(cursor, pattern);
+      days.push({ date: new Date(cursor.getTime()), off: off, isLeave: !off });
+      if (!off) consumed++;
+      cursor = addDays(cursor, -1);
+      iter++;
+    }
+
+    days.reverse();
+
+    var leaveStartDate = days.length ? days[0].date : resignDate;
+
+    var lastWorkday = addDays(leaveStartDate, -1);
+    while (isOffDay(lastWorkday, pattern)) {
+      lastWorkday = addDays(lastWorkday, -1);
+    }
+
+    var calendarSpan = Math.round((resignDate - leaveStartDate) / 86400000) + 1;
+
+    summaryCards.innerHTML =
+      '<div class="summary-card"><div class="label">最終出社日</div><div class="value">' + fmtDate(lastWorkday) + '（' + WEEKDAY_LABEL[lastWorkday.getDay()] + '）</div><div class="sub">この日まで通常勤務</div></div>' +
+      '<div class="summary-card"><div class="label">有給消化スタート日</div><div class="value">' + fmtDate(leaveStartDate) + '（' + WEEKDAY_LABEL[leaveStartDate.getDay()] + '）</div><div class="sub">ここから退職日まで有給消化</div></div>' +
+      '<div class="summary-card"><div class="label">消化期間（暦日数）</div><div class="value">' + calendarSpan + '日間</div><div class="sub">有給 ' + leaveDays + '日分</div></div>';
+
+    resultBody.innerHTML = days.map(function (d, i) {
+      var isLast = i === days.length - 1;
+      var cls = (d.off ? 'off-day' : '') + (isLast ? ' last-day' : '');
+      var status = d.off ? '休日（対象外）' : '有給消化<span class="tag">' + (days.slice(0, i + 1).filter(function(x){return !x.off;}).length) + '日目</span>';
+      if (isLast) status += ' <span class="tag muted">退職日</span>';
+      return '<tr class="' + cls.trim() + '"><td>' + fmtDate(d.date) + '</td><td>' + WEEKDAY_LABEL[d.date.getDay()] + '</td><td>' + status + '</td></tr>';
+    }).join('');
+  }
+
+  [lastDayInput, leaveDaysInput, offPatternSelect].forEach(function (el) {
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+
+  render();
+
+  var WEB3FORMS_ACCESS_KEY = '4551c9fd-4327-4bd4-97e0-8b93d85fd077';
+  var contactForm = document.getElementById('contactForm');
+  var contactStatus = document.getElementById('contactStatus');
+  var contactSubmit = document.getElementById('contactSubmit');
+
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    contactSubmit.disabled = true;
+    contactStatus.textContent = '送信中...';
+    contactStatus.className = 'contact-status';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject: '退職有給消化シミュレーターへのお問い合わせ',
+        email: document.getElementById('contactEmail').value || 'noreply@example.com',
+        message: document.getElementById('contactMessage').value
+      })
+    }).then(function (res) { return res.json(); }).then(function (data) {
+      contactSubmit.disabled = false;
+      if (data.success) {
+        contactStatus.textContent = '送信しました。ありがとうございます！';
+        contactStatus.className = 'contact-status ok';
+        contactForm.reset();
+      } else {
+        contactStatus.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
+        contactStatus.className = 'contact-status err';
+      }
+    }).catch(function () {
+      contactSubmit.disabled = false;
+      contactStatus.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
+      contactStatus.className = 'contact-status err';
+    });
+  });
+})();
+</script>
+</body>
+</html>
