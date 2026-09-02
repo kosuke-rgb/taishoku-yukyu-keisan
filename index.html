@@ -112,13 +112,16 @@ tr.last-day td:first-child { font-weight: 700; }
 
 .disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
 
+.share-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.1rem; }
 .share-btn {
-  display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.1rem;
-  padding: 0.55rem 1.1rem; border-radius: 999px; background: #000; color: #fff;
-  text-decoration: none; font-size: 0.85rem; font-weight: 700;
+  display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 999px;
+  color: #fff; text-decoration: none; font-size: 0.82rem; font-weight: 700;
 }
 .share-btn:hover { opacity: 0.85; }
-.share-btn svg { width: 14px; height: 14px; fill: #fff; }
+.share-x { background: #000; }
+.share-line { background: #06c755; }
+.share-fb { background: #1877f2; }
+.share-hatena { background: #00a4de; }
 
 .ad-slot { margin: 2.5rem 0; text-align: center; min-height: 100px; }
 
@@ -194,10 +197,12 @@ footer.site-footer a { color: var(--accent); }
       </table>
     </div>
     <p class="disclaimer">土日休みの場合、有給消化期間中の土日はもともと休みのため有給を消費しません（表内では「休日（対象外）」と表示）。会社独自の休日カレンダー（祝日・夏季休暇等）は考慮していない簡易計算です。実際の消化スケジュールは会社の労務担当と調整してください。</p>
-    <a class="share-btn" id="shareBtn" href="#" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      結果をシェア
-    </a>
+    <div class="share-row" id="shareRow">
+      <a class="share-btn share-x" id="shareX" href="#" target="_blank" rel="noopener">𝕏でシェア</a>
+      <a class="share-btn share-line" id="shareLine" href="#" target="_blank" rel="noopener">LINEで送る</a>
+      <a class="share-btn share-fb" id="shareFb" href="#" target="_blank" rel="noopener">Facebookでシェア</a>
+      <a class="share-btn share-hatena" id="shareHatena" href="#" target="_blank" rel="noopener">はてブする</a>
+    </div>
   </section>
 
   <section>
@@ -256,7 +261,11 @@ footer.site-footer a { color: var(--accent); }
   var offPatternSelect = document.getElementById('offPattern');
   var summaryCards = document.getElementById('summaryCards');
   var resultBody = document.getElementById('resultBody');
-  var shareBtn = document.getElementById('shareBtn');
+  var shareRow = document.getElementById('shareRow');
+  var shareX = document.getElementById('shareX');
+  var shareLine = document.getElementById('shareLine');
+  var shareFb = document.getElementById('shareFb');
+  var shareHatena = document.getElementById('shareHatena');
 
   function isOffDay(date, pattern) {
     var day = date.getDay();
@@ -275,6 +284,13 @@ footer.site-footer a { color: var(--accent); }
     return d;
   }
 
+  function setShareLinks(text, url) {
+    shareX.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
+    shareLine.href = 'https://line.me/R/msg/text/?' + encodeURIComponent(text + '\n' + url);
+    shareFb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(text);
+    shareHatena.href = 'https://b.hatena.ne.jp/entry/panel/?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(text);
+  }
+
   function render() {
     var lastDayVal = lastDayInput.value;
     var leaveDays = Math.max(0, Math.floor(Number(leaveDaysInput.value) || 0));
@@ -283,10 +299,10 @@ footer.site-footer a { color: var(--accent); }
     if (!lastDayVal || leaveDays <= 0) {
       summaryCards.innerHTML = '';
       resultBody.innerHTML = '';
-      shareBtn.style.display = 'none';
+      shareRow.style.display = 'none';
       return;
     }
-    shareBtn.style.display = '';
+    shareRow.style.display = '';
 
     var resignDate = new Date(lastDayVal + 'T00:00:00');
 
@@ -323,7 +339,7 @@ footer.site-footer a { color: var(--accent); }
     var shareText = '退職日から逆算したら、最終出社日は ' + fmtDate(lastWorkday) + ' だった\n' +
       '有給消化は' + fmtDate(leaveStartDate) + 'からスタート\n\n' +
       '退職時の有給消化シミュレーター';
-    shareBtn.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent('https://webtools-labs.com/taishoku-yukyu-keisan/');
+    setShareLinks(shareText, 'https://webtools-labs.com/taishoku-yukyu-keisan/');
 
     resultBody.innerHTML = days.map(function (d, i) {
       var isLast = i === days.length - 1;
