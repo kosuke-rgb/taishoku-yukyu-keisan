@@ -39,6 +39,29 @@
   "inLanguage": "ja"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "退職前に有給休暇はすべて消化できますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "有給休暇の取得は労働者の権利であり、退職前であっても残っている日数を消化することができます。会社側には「時季変更権」がありますが、退職日以降に変更することはできないため、退職日までに消化しきれない場合は買い取りなどを会社と相談する必要があります。" }
+    },
+    {
+      "@type": "Question",
+      "name": "最終出社日と退職日は違うのですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "はい、異なります。退職日は雇用契約が終了する日ですが、最終出社日はその前に有給休暇をまとめて消化するため、実際に出社する最後の日はそれより前になります。このツールでは、退職日から残りの有給日数分をさかのぼって最終出社日を計算します。" }
+    },
+    {
+      "@type": "Question",
+      "name": "土日休みではないシフト制でも計算できますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "はい。休日パターンを選択できるため、完全週休2日制だけでなく、シフト制などの勤務形態にも対応しています。有給休暇は本来の勤務日にのみ消化されるため、休日パターンによって最終出社日の計算結果が変わります。" }
+    }
+  ]
+}
+</script>
 <style>
 :root {
   --bg: #ffffff;
@@ -151,6 +174,19 @@ footer.site-footer {
 }
 footer.site-footer p { margin: 0 0 0.5rem; }
 footer.site-footer a { color: var(--accent); }
+
+.faq-item { border-bottom: 1px solid var(--line); padding: 0.9rem 0; }
+.faq-item:last-child { border-bottom: none; }
+.faq-item summary {
+  cursor: pointer; font-weight: 700; font-size: 0.92rem; list-style: none;
+  position: relative; padding-right: 1.6rem;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+'; position: absolute; right: 0; top: 0; color: var(--accent); font-weight: 700; font-size: 1.1rem;
+}
+.faq-item[open] summary::after { content: '−'; }
+.faq-item p { margin: 0.7rem 0 0; color: var(--muted); font-size: 0.88rem; }
 </style>
 </head>
 <body>
@@ -228,6 +264,22 @@ footer.site-footer a { color: var(--accent); }
       data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
+
+  <section>
+    <h2>よくある質問</h2>
+    <details class="faq-item">
+      <summary>退職前に有給休暇はすべて消化できますか？</summary>
+      <p>有給休暇の取得は労働者の権利であり、退職前であっても残っている日数を消化することができます。会社側には「時季変更権」がありますが、退職日以降に変更することはできないため、退職日までに消化しきれない場合は買い取りなどを会社と相談する必要があります。</p>
+    </details>
+    <details class="faq-item">
+      <summary>最終出社日と退職日は違うのですか？</summary>
+      <p>はい、異なります。退職日は雇用契約が終了する日ですが、最終出社日はその前に有給休暇をまとめて消化するため、実際に出社する最後の日はそれより前になります。このツールでは、退職日から残りの有給日数分をさかのぼって最終出社日を計算します。</p>
+    </details>
+    <details class="faq-item">
+      <summary>土日休みではないシフト制でも計算できますか？</summary>
+      <p>はい。休日パターンを選択できるため、完全週休2日制だけでなく、シフト制などの勤務形態にも対応しています。有給休暇は本来の勤務日にのみ消化されるため、休日パターンによって最終出社日の計算結果が変わります。</p>
+    </details>
+  </section>
 
   <section class="contact-box">
     <h2>ご意見・追加してほしい機能</h2>
