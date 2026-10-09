@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>退職時の有給消化シミュレーター | 最終出社日を逆算</title>
-<meta name="description" content="退職日と残っている有給休暇日数を入れるだけで、有給をすべて消化した場合の最終出社日・有給消化の開始日を自動計算。土日休み・シフト制などの休日パターンにも対応した無料ツールです。">
+<title>有給消化の最終出社日 計算ツール｜退職日から逆算【土日・祝日対応】</title>
+<meta name="description" content="退職日と残りの有給日数を入れるだけで、有給をすべて消化した場合の最終出社日と有給消化の開始日を自動計算。土日休み・日曜休み・シフト制と、2026・2027年の祝日に対応した無料ツールです。">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://webtools-labs.com/taishoku-yukyu-keisan/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2370765779014113" crossorigin="anonymous"></script>
@@ -31,7 +31,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="webtools-labs">
-<meta property="og:title" content="退職時の有給消化シミュレーター | 最終出社日を逆算">
+<meta property="og:title" content="有給消化の最終出社日 計算ツール｜退職日から逆算【土日・祝日対応】">
 <meta property="og:description" content="退職日と残りの有給日数から、有給を使い切った場合の最終出社日をまとめて計算します。">
 <meta property="og:url" content="https://webtools-labs.com/taishoku-yukyu-keisan/">
 <meta property="og:image" content="https://webtools-labs.com/taishoku-yukyu-keisan/og-image.png">
@@ -83,6 +83,21 @@
       "@type": "Question",
       "name": "引き継ぎ期間中に有給を使うと角が立ちませんか？",
       "acceptedAnswer": { "@type": "Answer", "text": "有給休暇の取得は法律で保障された権利であり、引き継ぎへの配慮は義務ではありません。とはいえ円満に退職したい場合は、退職の意思を早めに伝え、引き継ぎ資料の作成や後任への説明をできるだけ有給消化前に終えておくと、心理的な負担も業務上の支障も小さくできます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "有給消化中の給料はどうなりますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "有給消化中も会社に在籍しているため、給料は支払われます。金額は就業規則の定めにより「通常の賃金」「平均賃金」「標準報酬日額」のいずれかで計算されます（労働基準法第39条）。社会保険料や住民税も、通常の月と同じように給料から差し引かれます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "有給消化中にボーナス（賞与）はもらえますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "多くの会社は「支給日に在籍していること」を賞与の支給条件にしています。有給消化中も在籍している扱いのため、支給日が退職日より前なら受け取れることが一般的です。ただし支給の条件や減額の規定は会社によって異なるので、就業規則や賃金規程を確認してください。" }
+    },
+    {
+      "@type": "Question",
+      "name": "祝日は有給消化の日数に含まれますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "会社の休日になっている祝日は、もともと働く義務がない日なので有給を使いません。祝日も出勤日になっている会社（シフト制など）では、その日に休むと有給を1日使います。本ツールでは「祝日も休み」のチェックで切り替えられます。" }
     }
   ]
 }
@@ -251,7 +266,7 @@ footer.site-footer a { color: var(--accent); }
   <header class="masthead">
     <h1>退職時の有給消化シミュレーター</h1>
     <p class="lede">退職日と残っている有給休暇日数を入れるだけで、有給をすべて使い切った場合の最終出社日と、有給消化がスタートする日をまとめて計算します。</p>
-    <span class="updated-note">計算方式 最終確認日: 2026年9月2日</span>
+    <span class="updated-note">計算方式 最終確認日: 2026年10月9日（祝日は内閣府「国民の祝日」2026・2027年分）</span>
     <p class="ad-disclosure" style="font-size:0.75rem;opacity:0.7;margin:0.5rem 0 0;">※当サイトはアフィリエイト広告（PR）を利用しています。</p>
   </header>
 
@@ -285,6 +300,7 @@ footer.site-footer a { color: var(--accent); }
         </select>
       </div>
     </div>
+    <label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9rem;margin:0 0 1.25rem;"><input type="checkbox" id="holidayOff" checked style="width:1.1rem;height:1.1rem;margin-top:0.25rem;accent-color:var(--accent);"><span>祝日も休み（2026・2027年の国民の祝日・振替休日に対応）</span></label>
 
     <div class="summary-cards" id="summaryCards"></div>
 
@@ -296,7 +312,7 @@ footer.site-footer a { color: var(--accent); }
         <tbody id="resultBody"></tbody>
       </table>
     </div>
-    <p class="disclaimer">土日休みの場合、有給消化期間中の土日はもともと休みのため有給を消費しません（表内では「休日（対象外）」と表示）。会社独自の休日カレンダー（祝日・夏季休暇等）は考慮していない簡易計算です。実際の消化スケジュールは会社の労務担当と調整してください。</p>
+    <p class="disclaimer">有給は本来の勤務日にだけ使うため、土日や祝日（「祝日も休み」をオンにした場合）は有給を消費しません（表内では「休日（対象外）」と表示）。祝日は内閣府の「国民の祝日」（2026・2027年分）にもとづきます。年末年始・夏季休暇など会社独自の休日は考慮していないため、実際の消化スケジュールは会社の労務担当と調整してください。</p>
     <div class="share-row" id="shareRow">
       <a class="share-btn share-x" id="shareX" href="#" target="_blank" rel="noopener">𝕏でシェア</a>
       <a class="share-btn share-line" id="shareLine" href="#" target="_blank" rel="noopener">LINEで送る</a>
@@ -394,6 +410,18 @@ footer.site-footer a { color: var(--accent); }
       <summary>引き継ぎ期間中に有給を使うと角が立ちませんか？</summary>
       <p>有給休暇の取得は法律で保障された権利であり、引き継ぎへの配慮は義務ではありません。とはいえ円満に退職したい場合は、退職の意思を早めに伝え、引き継ぎ資料の作成や後任への説明をできるだけ有給消化前に終えておくと、心理的な負担も業務上の支障も小さくできます。</p>
     </details>
+    <details class="faq-item">
+      <summary>有給消化中の給料はどうなりますか？</summary>
+      <p>有給消化中も会社に在籍しているため、給料は支払われます。金額は就業規則の定めにより「通常の賃金」「平均賃金」「標準報酬日額」のいずれかで計算されます（労働基準法第39条）。社会保険料や住民税も、通常の月と同じように給料から差し引かれます。</p>
+    </details>
+    <details class="faq-item">
+      <summary>有給消化中にボーナス（賞与）はもらえますか？</summary>
+      <p>多くの会社は「支給日に在籍していること」を賞与の支給条件にしています。有給消化中も在籍している扱いのため、支給日が退職日より前なら受け取れることが一般的です。ただし支給の条件や減額の規定は会社によって異なるので、就業規則や賃金規程を確認してください。</p>
+    </details>
+    <details class="faq-item">
+      <summary>祝日は有給消化の日数に含まれますか？</summary>
+      <p>会社の休日になっている祝日は、もともと働く義務がない日なので有給を使いません。祝日も出勤日になっている会社（シフト制など）では、その日に休むと有給を1日使います。本ツールでは「祝日も休み」のチェックで切り替えられます。</p>
+    </details>
   </section>
 
   <section class="contact-box">
@@ -463,10 +491,35 @@ footer.site-footer a { color: var(--accent); }
   var shareFb = document.getElementById('shareFb');
   var shareHatena = document.getElementById('shareHatena');
 
+  // 国民の祝日・振替休日・国民の休日（内閣府、2026・2027年。2027年の春分の日は3/21〔日〕で3/22が振替休日）
+  var HOLIDAYS = {
+    '2026-01-01': '元日', '2026-01-12': '成人の日', '2026-02-11': '建国記念の日', '2026-02-23': '天皇誕生日',
+    '2026-03-20': '春分の日', '2026-04-29': '昭和の日', '2026-05-03': '憲法記念日', '2026-05-04': 'みどりの日',
+    '2026-05-05': 'こどもの日', '2026-05-06': '振替休日', '2026-07-20': '海の日', '2026-08-11': '山の日',
+    '2026-09-21': '敬老の日', '2026-09-22': '国民の休日', '2026-09-23': '秋分の日', '2026-10-12': 'スポーツの日',
+    '2026-11-03': '文化の日', '2026-11-23': '勤労感謝の日',
+    '2027-01-01': '元日', '2027-01-11': '成人の日', '2027-02-11': '建国記念の日', '2027-02-23': '天皇誕生日',
+    '2027-03-21': '春分の日', '2027-03-22': '振替休日', '2027-04-29': '昭和の日', '2027-05-03': '憲法記念日',
+    '2027-05-04': 'みどりの日', '2027-05-05': 'こどもの日', '2027-07-19': '海の日', '2027-08-11': '山の日',
+    '2027-09-20': '敬老の日', '2027-09-23': '秋分の日', '2027-10-11': 'スポーツの日', '2027-11-03': '文化の日',
+    '2027-11-23': '勤労感謝の日'
+  };
+  var holidayOffInput = document.getElementById('holidayOff');
+
+  function ymd(d) {
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+
+  function holidayName(date) {
+    return holidayOffInput.checked ? (HOLIDAYS[ymd(date)] || null) : null;
+  }
+
   function isOffDay(date, pattern) {
     var day = date.getDay();
-    if (pattern === 'satsun') return day === 0 || day === 6;
-    if (pattern === 'sun') return day === 0;
+    if (pattern === 'satsun' && (day === 0 || day === 6)) return true;
+    if (pattern === 'sun' && day === 0) return true;
+    // シフト制（固定休みなし）は祝日も勤務日になり得るため、祝日を休みとして扱わない
+    if (pattern !== 'none' && holidayName(date)) return true;
     return false;
   }
 
@@ -540,13 +593,14 @@ footer.site-footer a { color: var(--accent); }
     resultBody.innerHTML = days.map(function (d, i) {
       var isLast = i === days.length - 1;
       var cls = (d.off ? 'off-day' : '') + (isLast ? ' last-day' : '');
-      var status = d.off ? '休日（対象外）' : '有給消化<span class="tag">' + (days.slice(0, i + 1).filter(function(x){return !x.off;}).length) + '日目</span>';
+      var hName = d.off && pattern !== 'none' ? holidayName(d.date) : null;
+      var status = d.off ? (hName ? '祝日・' + hName + '（対象外）' : '休日（対象外）') : '有給消化<span class="tag">' + (days.slice(0, i + 1).filter(function(x){return !x.off;}).length) + '日目</span>';
       if (isLast) status += ' <span class="tag muted">退職日</span>';
       return '<tr class="' + cls.trim() + '"><td>' + fmtDate(d.date) + '</td><td>' + WEEKDAY_LABEL[d.date.getDay()] + '</td><td>' + status + '</td></tr>';
     }).join('');
   }
 
-  [lastDayInput, leaveDaysInput, offPatternSelect].forEach(function (el) {
+  [lastDayInput, leaveDaysInput, offPatternSelect, holidayOffInput].forEach(function (el) {
     el.addEventListener('input', render);
     el.addEventListener('change', render);
   });
